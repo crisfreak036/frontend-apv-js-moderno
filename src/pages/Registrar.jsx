@@ -1,18 +1,25 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { Alerta } from '../components/Alerta'
+
 function Registrar() {
   const [ nombre, setNombre ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ repetirPassword, setRepetirPassword ] = useState('')
+  const [ alerta, setAlerta ] = useState({})
 
   const handleSubmit = e => {
     e.preventDefault()
     
-    if ([nombre, email, password, repetirPassword].includes('')) console.log('Hay campos vacios')
-    if (password !== repetirPassword) console.log('Las contraseñas no coinciden')
-    if (password.length < 6) console.log('La contraseña debe tener al menos 6 caracteres')
+    if ([nombre, email, password, repetirPassword].includes('')) return setAlerta({msg: 'Existen campos vacios', error: true})
+    if (password !== repetirPassword) return setAlerta({msg: 'Los Password No Coinciden', error: true})
+    if (password.length < 6) return setAlerta({msg: 'El Password debe tener al menos 6 caracteres', error: true})
+
+    setAlerta({})
+
+    // Creal el usuario en la API
   }
 
   return (
@@ -25,6 +32,10 @@ function Registrar() {
       </div>
 
       <div className='mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white'>
+
+        {alerta['msg'] && <Alerta
+          alerta={alerta}
+        />}
 
         <form
           onSubmit={handleSubmit}
