@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Registrar() {
+  const [ nombre, setNombre ] = useState('')
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ repetirPassword, setRepetirPassword ] = useState('')
+
   return (
     <>
       <div>
@@ -24,7 +29,9 @@ function Registrar() {
             <input 
               type='text'
               placeholder='Tu Nombre'
-              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl' 
+              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl'
+              value={nombre}
+              onChange={ e => setNombre(e.target.value)} 
             />
           </div>
 
@@ -37,7 +44,9 @@ function Registrar() {
             <input 
               type='email'
               placeholder='Tu Email de Usuario'
-              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl' 
+              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl'
+              value={email}
+              onChange={ e => setEmail(e.target.value)}  
             />
           </div>
 
@@ -50,7 +59,9 @@ function Registrar() {
             <input 
               type='password'
               placeholder='Tu Password de Acceso'
-              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl' 
+              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl'
+              value={password}
+              onChange={ e => setPassword(e.target.value)}  
             />
           </div>
 
@@ -63,7 +74,9 @@ function Registrar() {
             <input 
               type='password'
               placeholder='Repite Tu Password de Acceso'
-              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl' 
+              className='border w-full p-3 mt-3 bg-gray-50 rounded-xl'
+              value={repetirPassword}
+              onChange={ e => setRepetirPassword(e.target.value)}   
             />
           </div>
 
