@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import { Alerta } from '../components/Alerta'
 
@@ -10,7 +11,7 @@ function Registrar() {
   const [ repetirPassword, setRepetirPassword ] = useState('')
   const [ alerta, setAlerta ] = useState({})
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     if ([nombre, email, password, repetirPassword].includes('')) return setAlerta({msg: 'Existen campos vacios', error: true})
@@ -20,6 +21,13 @@ function Registrar() {
     setAlerta({})
 
     // Creal el usuario en la API
+    try {
+      const respuesta = await axios.post(`${import.meta.env.VITE_API_URL_DEV}/veterinarios/`, { nombre, email, password });
+      if (respuesta.data.error === false) return setAlerta({msg: 'Usuario Creado Correctamente. Revisa Tu Correo Para Finalizar El Registro', error: false})
+    } catch (error) {
+      const { message } = error.response.data;
+      return setAlerta({msg: message, error: true});
+    }
   }
 
   return (
