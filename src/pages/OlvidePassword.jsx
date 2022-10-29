@@ -16,11 +16,12 @@ function OlvidePassword() {
 
     try {
 
-      const { data } =  await clienteAxios.post('/veterinarios/olvide-password', { email });
+      const { data } =  await clienteAxios.post('/veterinarios/olvide-password', { email })
+      setEmail('')
       return setAlerta({msg: data.message, error: false})
     } catch (error) {
       const { message } = error.response.data;
-      return setAlerta({msg: message, error: true});
+      return setAlerta({msg: message, error: true})
     }
   }
 
