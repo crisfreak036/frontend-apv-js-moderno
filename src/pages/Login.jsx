@@ -5,7 +5,6 @@ import clienteAxios from '../config/axios'
 import useAuth from '../hooks/useAuth'
 
 const Login = () => {
-  const { auth, setAuth } = useAuth()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ alerta, setAlerta ] = useState({})
@@ -25,9 +24,8 @@ const Login = () => {
       const { data } =  await clienteAxios.post('/veterinarios/login', { email, password })
       const { data: { jwt } } = data
 
-      localStorage.setItem('token', jwt) // Se almacena el token en localStorage
+      localStorage.setItem('apv_token', jwt) // Se almacena el token en localStorage
       
-      setAuth({jwt})
       setEmail('')
       setPassword('')
       return setAlerta({msg: data.message, error: false})
