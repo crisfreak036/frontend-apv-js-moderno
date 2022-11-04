@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Alerta } from '../../components/Alerta'
 import clienteAxios from '../../config/axios'
-import useAuth from '../../hooks/useAuth'
 
 const Login = () => {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ alerta, setAlerta ] = useState({})
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,7 +29,8 @@ const Login = () => {
       
       setEmail('')
       setPassword('')
-      return setAlerta({msg: data.message, error: false})
+
+      navigate('/admin') // Redirige el login hacía la vista de admin
     } catch (error) {
       const { message } = error.response.data;
       return setAlerta({msg: message, error: true})
