@@ -6,7 +6,8 @@ const Authcontext = createContext(); // Hace referencia al contexto del provider
 const AuthProvider = ({children}) => {
     // Se define el state que estará disponible localmente
     // En esta sección se pueden definir otros elementos además de estados
-    const [ auth, setAuth ] = useState({});
+    const [ auth, setAuth ] = useState({})
+    const [ cargando, setCargando ] = useState(true) // Define un estado de carga para la autenticación
 
     const debeEjecutarse = useRef(true)
 
@@ -14,7 +15,7 @@ const AuthProvider = ({children}) => {
         const autenticarUsuario = async () => {
             const apvToken = localStorage.getItem('apv_token')
 
-            if (!apvToken) return
+            if (!apvToken) return setCargando(false)
             
             // Configuración del header de la petición a Axios
             const config = {
@@ -31,6 +32,8 @@ const AuthProvider = ({children}) => {
                 console.log(error.response.data.message);
                 setAuth({})
             }
+
+            setCargando(false)
         }
     
         if (debeEjecutarse.current) {
@@ -45,7 +48,8 @@ const AuthProvider = ({children}) => {
             value={{
                 // Value permite indicar que valores retornará el provider desde los elementos definidos en el bloque anterior
                 auth,
-                setAuth
+                setAuth,
+                cargando
             }}
         >
             {children}
