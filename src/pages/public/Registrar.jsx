@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import clienteAxios from '../config/axios'
+import clienteAxios from '../../config/axios'
 
-import { Alerta } from '../components/Alerta'
+import { Alerta } from '../../components/Alerta'
 
-function Registrar() {
+const Registrar = () => {
   const [ nombre, setNombre ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')

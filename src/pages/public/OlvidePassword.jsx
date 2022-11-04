@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Alerta } from '../components/Alerta'
-import clienteAxios from '../config/axios'
+import { Alerta } from '../../components/Alerta'
+import clienteAxios from '../../config/axios'
 
 
 function OlvidePassword() {
