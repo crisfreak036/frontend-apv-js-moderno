@@ -1,10 +1,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import AuthLayout from './layout/AuthLayout'
-import Login from './pages/Login'
-import Registrar from './pages/Registrar'
-import ConfirmarCuenta from './pages/ConfirmarCuenta'
-import OlvidePassword from './pages/OlvidePassword'
-import NuevoPassword from './pages/NuevoPassword'
+import RutasProtegidas from './layout/RutasProtegidas'
+
+import Login from './pages/public/Login'
+import Registrar from './pages/public/Registrar'
+import ConfirmarCuenta from './pages/public/ConfirmarCuenta'
+import OlvidePassword from './pages/public/OlvidePassword'
+import NuevoPassword from './pages/public/NuevoPassword'
+
+import AdministrarPacientes from './pages/private/AdministrarPacientes'
 
 import { AuthProvider } from './context/AuthProvider'
 
@@ -19,6 +24,12 @@ function App() {
             <Route path='olvide-password' element={<OlvidePassword/>}/>
             <Route path='olvide-password/:id' element={<NuevoPassword/>}/>
             <Route path='confirmar-cuenta/:id' element={<ConfirmarCuenta/>}/>
+          </Route>
+        </Routes>
+
+        <Routes>
+          <Route path='/admin' element={<RutasProtegidas/>}>
+            <Route index element={<AdministrarPacientes/>}/>
           </Route>
         </Routes>
         </AuthProvider>
