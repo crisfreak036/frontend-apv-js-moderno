@@ -42,6 +42,11 @@ const AuthProvider = ({children}) => {
         }
     }, [])
 
+    const cerrarSesion = () => {
+        localStorage.removeItem('apv_token')
+        setAuth({})
+    }
+
     return(
         // Desde al provider es donde nacen los datos
         <Authcontext.Provider
@@ -49,7 +54,8 @@ const AuthProvider = ({children}) => {
                 // Value permite indicar que valores retornará el provider desde los elementos definidos en el bloque anterior
                 auth,
                 setAuth,
-                cargando
+                cargando,
+                cerrarSesion
             }}
         >
             {children}
