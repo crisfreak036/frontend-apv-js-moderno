@@ -14,7 +14,7 @@ const RutasProtegidas = () => {
         <Header/>
         {
             // En el caso de que auth contenga el id, entonces muestra la vista, de lo contrario envia al login
-            auth?._id ? (
+            (auth?._id || auth?.login) ? (
                 <main className='container mx-auto mt-10'>
                     <Outlet/>
                 </main>
