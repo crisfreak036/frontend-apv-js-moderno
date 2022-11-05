@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import { Alerta } from '../components/Alerta'
 
 const Formulario = () => {
+    const [nombreMascota, setNombreMascota] = useState('')
+    const [nombrePropietario, setNombrePropietario] = useState('')
+    const [emailPropietario, setEmailPropietario] = useState('')
+    const [fechaIngreso, setFechaIngreso] = useState('')
+    const [fechaAlta, setFechaAlta] = useState('')
+    const [sintomas, setSintomas] = useState('')
+
+    const [alerta, setAlerta] = useState()
+
     const handleSubmit = (e) => {
         e.preventDefault()
     }
@@ -18,69 +29,79 @@ const Formulario = () => {
         >
             <div className='mb-5'>
                 <label 
-                    htmlFor="mascota"
+                    htmlFor="nombreMascota"
                     className="text-gray-700 uppercase font-bold"
                 >
                     Nombre Mascota</label>
                 <input 
                     type="text"
-                    id="mascota"
+                    id="nombreMascota"
                     placeholder="Nombre de la Mascota"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={nombreMascota}
+                    onChange={(e) => setNombreMascota(e.target.value)}  
                 />
             </div>
 
             <div className='mb-5'>
                 <label 
-                    htmlFor="propietario"
+                    htmlFor="nombrePropietario"
                     className="text-gray-700 uppercase font-bold"
                 >
                     Nombre Propietario</label>
                 <input 
                     type="text"
-                    id="propietario"
+                    id="nombrePropietario"
                     placeholder="Nombre de Propietario"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={nombrePropietario}
+                    onChange={(e) => setNombrePropietario(e.target.value)}   
                 />
             </div>
 
             <div className='mb-5'>
                 <label 
-                    htmlFor="email"
+                    htmlFor="emailPropietario"
                     className="text-gray-700 uppercase font-bold"
                 >
                     Email Propietario</label>
                 <input 
                     type="email"
-                    id="email"
+                    id="emailPropietario"
                     placeholder="Email Propietario"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={emailPropietario}
+                    onChange={(e) => setEmailPropietario(e.target.value)}   
                 />
             </div>
 
             <div className='mb-5'>
                 <label 
-                    htmlFor="fecha-ingreso"
+                    htmlFor="fechaIngreso"
                     className="text-gray-700 uppercase font-bold"
                 >
                     Fecha de Ingreso</label>
                 <input 
                     type="date"
-                    id="fecha-ingreso"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    id="fechaIngreso"
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={fechaIngreso}
+                    onChange={(e) => setFechaIngreso(e.target.value)}  
                 />
             </div>
 
             <div className='mb-5'>
                 <label 
-                    htmlFor="fecha-alta"
+                    htmlFor="fechaAlta"
                     className="text-gray-700 uppercase font-bold"
                 >
                     Fecha de Alta</label>
                 <input 
                     type="date"
-                    id="fecha-alta"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    id="fechaAlta"
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={fechaAlta}
+                    onChange={(e) => setFechaAlta(e.target.value)}  
                 />
             </div>
 
@@ -94,7 +115,9 @@ const Formulario = () => {
                     name="sintomas" 
                     id="sintomas"
                     placeholder="Describe los Síntomas del Paciente"
-                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    value={sintomas}
+                    onChange={(e) => setSintomas(e.target.value)} 
                 />
             </div>
 
