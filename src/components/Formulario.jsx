@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
 import { Alerta } from '../components/Alerta'
+import usePacientes from '../hooks/usePacientes'
+import useAuth from '../hooks/useAuth'
 
 const Formulario = () => {
     const [nombreMascota, setNombreMascota] = useState('')
@@ -10,10 +12,32 @@ const Formulario = () => {
     const [fechaAlta, setFechaAlta] = useState('')
     const [sintomas, setSintomas] = useState('')
 
-    const [alerta, setAlerta] = useState()
+    const [alerta, setAlerta] = useState({})
+
+    const { guardarPaciente } = usePacientes()
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        // Validación del Formulario
+        if ([nombreMascota, nombrePropietario, emailPropietario, fechaIngreso, fechaAlta, sintomas].includes('')) {
+            return setAlerta({
+                msg: 'Todos los campos son obligatorios',
+                error: true
+            })
+        }
+
+        setAlerta({})
+
+        // Agregar paciente
+        guardarPaciente({
+            nombre: nombreMascota,
+            propietario: nombrePropietario,
+            email: emailPropietario,
+            fechaDeIngreso: fechaIngreso,
+            fechaDeAlta: fechaAlta,
+            sintomas: sintomas
+        })
     }
 
     return (
@@ -22,6 +46,14 @@ const Formulario = () => {
             Añade tus pacientes y {''}
             <span className='text-indigo-600 font-bold'>Administralos</span>
         </p>
+
+        {
+            alerta['msg'] ? (
+                <Alerta
+                    alerta={alerta}
+                /> 
+                ) : null
+        }
 
         <form
             className='bg-white py-10 px-5 mb-10 lg:mb-0 shadow-md rounded-md'
