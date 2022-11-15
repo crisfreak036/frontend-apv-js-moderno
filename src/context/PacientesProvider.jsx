@@ -31,12 +31,26 @@ const PacientesProvider = ({children}) => {
     }
 
     useEffect(() => {
-        const funcion = async () => {
+        const obtenerPacientes = async () => {                
+            const apvToken = localStorage.getItem('apv_token')
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${apvToken}`
+                }
+            }
+
+            try {
+                const { data } = await clienteAxios.get('/pacientes', config)
+                setPacientes([...pacientes, ...data.data])
+            } catch (error) {
+                console.log(error.response.data.message);
+            }
         }
     
         if (debeEjecutarse.current) {
           debeEjecutarse.current = false
-          funcion()
+          obtenerPacientes()
         }
     }, [])
 
