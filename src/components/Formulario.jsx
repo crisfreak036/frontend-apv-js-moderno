@@ -38,13 +38,23 @@ const Formulario = () => {
             fechaDeAlta: fechaAlta,
             sintomas: sintomas
         })
+
+        setNombreMascota('')
+        setNombrePropietario('')
+        setEmailPropietario('')
+        setFechaIngreso('')
+        setFechaAlta('')
+        setSintomas('')
     }
 
     return (
         <>
-        <p className='text-lg text-center mb-10'>
-            Añade tus pacientes y {''}
-            <span className='text-indigo-600 font-bold'>Administralos</span>
+        <h2 className='font-black text-3xl text-center'>
+            Administrador de Pacientes
+        </h2>
+        <p className='text-xl mt-5 mb-10 text-center'>
+            Añade tus pacientes {''}
+            <span className='text-indigo-600 font-bold'>y Administralos</span>
         </p>
 
         {
