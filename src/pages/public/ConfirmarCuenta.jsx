@@ -22,7 +22,6 @@ const ConfirmarCuenta = () => {
         setCuentaConfirmada(true)
         setAlerta({msg: data.message, error: false})
 
-        console.log(data);
       } catch (error) {
         setAlerta({msg: error.response.data.message, error: true})
       }
