@@ -6,6 +6,7 @@ const PacientesContext = createContext()
 const PacientesProvider = ({children}) => {
     const debeEjecutarse = useRef(true)
     const [pacientes, setPacientes] = useState([])
+    const [paciente, setPaciente] = useState({})
 
     const guardarPaciente = async (paciente) => {
         const apvToken = localStorage.getItem('apv_token')
@@ -28,6 +29,10 @@ const PacientesProvider = ({children}) => {
             console.log(error.response.data.message);
         }
         
+    }
+
+    const obtenerPaciente = async (paciente) => {
+        setPaciente(paciente)
     }
 
     useEffect(() => {
@@ -59,6 +64,7 @@ const PacientesProvider = ({children}) => {
         <PacientesContext.Provider
             value={{
                 guardarPaciente,
+                obtenerPaciente,
                 pacientes
             }}
         >
