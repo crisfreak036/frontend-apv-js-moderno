@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Alerta } from '../components/Alerta'
 import usePacientes from '../hooks/usePacientes'
@@ -11,10 +11,39 @@ const Formulario = () => {
     const [fechaIngreso, setFechaIngreso] = useState('')
     const [fechaAlta, setFechaAlta] = useState('')
     const [sintomas, setSintomas] = useState('')
+    const [id, setId] = useState(null)
 
     const [alerta, setAlerta] = useState({})
 
-    const { guardarPaciente } = usePacientes()
+    const { guardarPaciente, actualizarPaciente, paciente } = usePacientes()
+
+    useEffect(() => {
+        const { nombre, propietario, email, fechaDeIngreso, fechaDeAlta, sintomas, _id } = paciente
+        setNombreMascota(`${ nombre ? nombre : ''}`)
+        setNombrePropietario(`${ propietario ? propietario : ''}`)
+        setEmailPropietario(`${ email ? email : ''}`)
+        setFechaIngreso(`${ fechaDeIngreso ? fechaDeIngreso : ''}`)
+        setFechaAlta(`${ fechaDeAlta ? fechaDeAlta : ''}`)
+        setSintomas(`${ sintomas ? sintomas : ''}`)
+        setId(_id)
+    }, [paciente])
+
+    // Quita la Alerta de la vista
+    useEffect(() => {
+        setTimeout(() => {
+            setAlerta({})
+        }, 9000);
+    }, [alerta])
+    
+    // Limpia los inputs
+    const limpiarInputs = () => {
+        setNombreMascota('')
+        setNombrePropietario('')
+        setEmailPropietario('')
+        setFechaIngreso('')
+        setFechaAlta('')
+        setSintomas('')
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -29,6 +58,28 @@ const Formulario = () => {
 
         setAlerta({})
 
+        if (id) {
+
+            let data = {};
+            if (nombreMascota) data.nombre = nombreMascota;
+            if (nombrePropietario) data.propietario = nombrePropietario;
+            if (emailPropietario) data.email = emailPropietario;
+            if (fechaIngreso) data.fechaDeIngreso = fechaIngreso;
+            if (fechaAlta) data.fechaDeAlta = fechaAlta;
+            if (sintomas) data.sintomas = sintomas;
+            
+            // Actualiza la información del paciente
+            actualizarPaciente(id, data)
+            
+            limpiarInputs()
+            setId(null)
+
+            return setAlerta({
+                msg: 'Información de Paciente Actualizada',
+                error: false
+            })
+        }
+
         // Agregar paciente
         guardarPaciente({
             nombre: nombreMascota,
@@ -39,12 +90,12 @@ const Formulario = () => {
             sintomas: sintomas
         })
 
-        setNombreMascota('')
-        setNombrePropietario('')
-        setEmailPropietario('')
-        setFechaIngreso('')
-        setFechaAlta('')
-        setSintomas('')
+        limpiarInputs()
+
+        return setAlerta({
+            msg: 'Paciente Agregado Exitosamente',
+            error: false
+        })
     }
 
     return (
@@ -165,7 +216,7 @@ const Formulario = () => {
 
             <input 
                 type="submit" 
-                value="Agregar Paciente"
+                value={ id ? 'Actualizar Paciente' : 'Agregar Paciente' }
                 className='bg-indigo-600 w-full py-3 text-white uppercase font-bold hover:cursor-pointer hover:bg-indigo-700 transition-colors rounded-xl'  
             />
         </form>
