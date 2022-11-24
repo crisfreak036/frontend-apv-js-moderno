@@ -24,7 +24,7 @@ const PacientesProvider = ({children}) => {
                restante utilizando el spread operator
             */
             const { data: { createdAt, updatedAt, __v, ...nuevoPaciente } } = data 
-            setPacientes([...pacientes, nuevoPaciente])
+            setPacientes([nuevoPaciente, ...pacientes])
         } catch (error) {
             console.log(error.response.data.message);
         }
@@ -35,24 +35,51 @@ const PacientesProvider = ({children}) => {
         setPaciente(paciente)
     }
 
-    useEffect(() => {
-        const obtenerPacientes = async () => {                
-            const apvToken = localStorage.getItem('apv_token')
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${apvToken}`
-                }
-            }
-
-            try {
-                const { data } = await clienteAxios.get('/pacientes', config)
-                setPacientes([...pacientes, ...data.data])
-            } catch (error) {
-                console.log(error.response.data.message);
+    const actualizarPaciente = async (id, paciente) => {
+        const apvToken = localStorage.getItem('apv_token')
+        
+        // Configuración del header de la petición a Axios
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apvToken}`
             }
         }
-    
+        try {
+            const { data } = await clienteAxios.patch(`/pacientes/${id}`, paciente, config)
+            /* En el destructuring se puede crear un objeto nuevo con la información
+               restante utilizando el spread operator
+            */
+            const { data: { createdAt, updatedAt, __v, ...pacienteActualizado } } = data
+
+            const pacientesActualizados = pacientes.map((pacienteEnState) => {
+                return pacienteEnState._id === pacienteActualizado._id ? pacienteActualizado : pacienteEnState
+            })
+            setPacientes(pacientesActualizados)
+
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    }
+
+    const obtenerPacientes = async () => {                
+        const apvToken = localStorage.getItem('apv_token')
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apvToken}`
+            }
+        }
+
+        try {
+            const { data } = await clienteAxios.get('/pacientes', config)
+            setPacientes([...data.data])
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    }
+
+    useEffect(() => {
         if (debeEjecutarse.current) {
           debeEjecutarse.current = false
           obtenerPacientes()
@@ -65,6 +92,8 @@ const PacientesProvider = ({children}) => {
             value={{
                 guardarPaciente,
                 obtenerPaciente,
+                actualizarPaciente,
+                paciente,
                 pacientes
             }}
         >
