@@ -7,6 +7,7 @@ const PacientesProvider = ({children}) => {
     const debeEjecutarse = useRef(true)
     const [pacientes, setPacientes] = useState([])
     const [paciente, setPaciente] = useState({})
+    const [alertasPacientesProvider, setAlertasPacientesProvider] = useState({})
 
     const guardarPaciente = async (paciente) => {
         const apvToken = localStorage.getItem('apv_token')
@@ -79,6 +80,39 @@ const PacientesProvider = ({children}) => {
         }
     }
 
+    const eliminarPaciente = async (id) => {
+
+        const confirmacionEliminacion = confirm('¿Confirmas que deseas eliminar el paciente?')
+
+        if (!confirmacionEliminacion) return
+
+        const apvToken = localStorage.getItem('apv_token')
+
+        // Configuración del header de la petición a Axios
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apvToken}`
+            }
+        }
+        try {
+            const { data } = await clienteAxios.delete(`/pacientes/${id}`, config)
+
+            const pacientesActualizados = pacientes.filter((pacienteEnState) => {
+                return pacienteEnState._id !== id
+            })
+
+            setPacientes(pacientesActualizados)
+            setAlertasPacientesProvider({
+                msg: 'Paciente Eliminado Correctamente',
+                error: false
+            })
+
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    }
+
     useEffect(() => {
         if (debeEjecutarse.current) {
           debeEjecutarse.current = false
@@ -93,8 +127,10 @@ const PacientesProvider = ({children}) => {
                 guardarPaciente,
                 obtenerPaciente,
                 actualizarPaciente,
+                eliminarPaciente,
                 paciente,
-                pacientes
+                pacientes,
+                alertasPacientesProvider
             }}
         >
             {children}
