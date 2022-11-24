@@ -15,7 +15,7 @@ const Formulario = () => {
 
     const [alerta, setAlerta] = useState({})
 
-    const { guardarPaciente, actualizarPaciente, paciente } = usePacientes()
+    const { guardarPaciente, actualizarPaciente, paciente, alertasPacientesProvider } = usePacientes()
 
     useEffect(() => {
         const { nombre, propietario, email, fechaDeIngreso, fechaDeAlta, sintomas, _id } = paciente
@@ -28,11 +28,16 @@ const Formulario = () => {
         setId(_id)
     }, [paciente])
 
+    // Muestra las alertas provenientes desde Pacientes Provider
+    useEffect(() => {
+        setAlerta(alertasPacientesProvider)
+    }, [alertasPacientesProvider])
+
     // Quita la Alerta de la vista
     useEffect(() => {
         setTimeout(() => {
             setAlerta({})
-        }, 9000);
+        }, 8000);
     }, [alerta])
     
     // Limpia los inputs
