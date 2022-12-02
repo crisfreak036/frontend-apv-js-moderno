@@ -8,6 +8,7 @@ const AuthProvider = ({children}) => {
     // En esta sección se pueden definir otros elementos además de estados
     const [ auth, setAuth ] = useState({})
     const [ cargando, setCargando ] = useState(true) // Define un estado de carga para la autenticación
+    const [ alertaAuthProvider, setAlertaAuthProvider ] = useState({})
 
     const debeEjecutarse = useRef(true)
 
@@ -47,6 +48,10 @@ const AuthProvider = ({children}) => {
         setAuth({})
     }
 
+    const actualizarPerfil = (perfil) => {
+        console.log(perfil)
+    }
+
     return(
         // Desde al provider es donde nacen los datos
         <Authcontext.Provider
@@ -55,7 +60,9 @@ const AuthProvider = ({children}) => {
                 auth,
                 setAuth,
                 cargando,
-                cerrarSesion
+                cerrarSesion,
+                actualizarPerfil,
+                alertaAuthProvider
             }}
         >
             {children}
