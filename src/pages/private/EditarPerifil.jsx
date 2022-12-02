@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth'
 
 const EditarPerifil = () => {
 
-    const { auth } = useAuth()
+    const { auth, actualizarPerfil, alertasPacientesProvider } = useAuth()
 
     const [perfil, setPerfil] = useState({})
     const [alerta, setAlerta] = useState({})
@@ -17,6 +17,17 @@ const EditarPerifil = () => {
     useEffect(() => {
         setPerfil(auth)
     }, [auth])
+
+    useEffect(() => {
+        setAlerta(alertasPacientesProvider)
+    }, [alertasPacientesProvider])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setAlerta({})
+        }, 7000);
+    }, [alerta])
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -26,15 +37,9 @@ const EditarPerifil = () => {
         if ([ nombre, email ].includes('')) return setAlerta({msg: `Email y Nombre Son Obligatorios`, error: true})
 
         // Actualizar el Perfil
-        // actualizarPerfil(perfil)
+        actualizarPerfil(perfil)
 
     }
-
-    useEffect(() => {
-        setTimeout(() => {
-            setAlerta({})
-        }, 10000);
-    }, [alerta])
 
     return (
         <>
@@ -54,7 +59,7 @@ const EditarPerifil = () => {
             <div className='flex justify-center'>
                 <div className='w-full md:w-1/2 bg-white shadow rounded-lg p-5'>
                 {
-                    alerta['msg'] ? (<Alerta
+                    alerta?.msg ? (<Alerta
                     alerta={alerta} 
                     />) : null
                 }
