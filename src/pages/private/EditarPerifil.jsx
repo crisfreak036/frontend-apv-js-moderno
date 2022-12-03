@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth'
 
 const EditarPerifil = () => {
 
-    const { auth, actualizarPerfil, alertasPacientesProvider } = useAuth()
+    const { auth, actualizarPerfil, alertaAuthProvider } = useAuth()
 
     const [perfil, setPerfil] = useState({})
     const [alerta, setAlerta] = useState({})
@@ -19,8 +19,8 @@ const EditarPerifil = () => {
     }, [auth])
 
     useEffect(() => {
-        setAlerta(alertasPacientesProvider)
-    }, [alertasPacientesProvider])
+        setAlerta(alertaAuthProvider)
+    }, [alertaAuthProvider])
 
     useEffect(() => {
         setTimeout(() => {
