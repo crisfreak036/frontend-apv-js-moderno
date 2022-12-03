@@ -48,8 +48,38 @@ const AuthProvider = ({children}) => {
         setAuth({})
     }
 
-    const actualizarPerfil = (perfil) => {
-        console.log(perfil)
+    const actualizarPerfil = async (perfil) => {
+        if (auth === perfil) return
+        const { _id: id, __v,...perfilActualizado } = perfil
+        
+        const apvToken = localStorage.getItem('apv_token')
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apvToken}`
+            }
+        }
+
+        try {
+            const { data } = await clienteAxios.patch(`/veterinarios/perfil/${id}`, perfilActualizado, config)
+            const { error, data: usuarioActualizado } = data
+
+            setAlertaAuthProvider({
+                msg: 'Perfil Actualizado Correctamente',
+                error: false
+            })
+
+            if (!error) setAuth(usuarioActualizado)
+
+        } catch (error) {
+            console.error(error.response.data.message)
+            setAlertaAuthProvider({
+                msg: error.response.data.message,
+                error: true
+            })
+        }
+
     }
 
     return(
