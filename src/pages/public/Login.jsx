@@ -25,9 +25,10 @@ const Login = () => {
 
     try {
       const { data } =  await clienteAxios.post('/veterinarios/login', { email, password })
-      const { data: { jwt } } = data
+      const { data: { jwt, usuario } } = data
+      
       localStorage.setItem('apv_token', jwt) // Se almacena el token en localStorage
-      setAuth({login: true})
+      setAuth(usuario)
       
       setEmail('')
       setPassword('')
