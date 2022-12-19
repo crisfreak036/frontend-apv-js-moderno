@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef,createContext } from "react"
+import useAuth from '../hooks/useAuth'
 import clienteAxios from "../config/axios";
 
 const PacientesContext = createContext()
 
 const PacientesProvider = ({children}) => {
-    const debeEjecutarse = useRef(true)
+    const { auth } = useAuth()
     const [pacientes, setPacientes] = useState([])
     const [paciente, setPaciente] = useState({})
     const [alertasPacientesProvider, setAlertasPacientesProvider] = useState({})
@@ -76,6 +77,7 @@ const PacientesProvider = ({children}) => {
             const { data } = await clienteAxios.get('/pacientes', config)
             setPacientes([...data.data])
         } catch (error) {
+            setPacientes([])
             console.log(error.response.data.message);
         }
     }
@@ -114,11 +116,8 @@ const PacientesProvider = ({children}) => {
     }
 
     useEffect(() => {
-        if (debeEjecutarse.current) {
-          debeEjecutarse.current = false
-          obtenerPacientes()
-        }
-    }, [])
+        obtenerPacientes()
+    }, [auth])
 
     return(
         // Desde al provider es donde nacen los datos
