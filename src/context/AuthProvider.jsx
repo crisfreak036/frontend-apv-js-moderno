@@ -82,6 +82,31 @@ const AuthProvider = ({children}) => {
 
     }
 
+    const actualizarPassword = async (data) => {
+        const { id,...passwords } = data
+
+        const apvToken = localStorage.getItem('apv_token')
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apvToken}`
+            }
+        }
+
+        try {
+            const { data } = await clienteAxios.patch(`/veterinarios/cambiar-password/${id}`, passwords, config)
+            const { error, message } = data
+            if (!error) setAlertaAuthProvider({msg: message, error: false}) 
+        } catch (error) {
+            console.error(error.response.data.message)
+            setAlertaAuthProvider({
+                msg: error.response.data.message,
+                error: true
+            })
+        }
+    }
+
     return(
         // Desde al provider es donde nacen los datos
         <Authcontext.Provider
@@ -92,7 +117,8 @@ const AuthProvider = ({children}) => {
                 cargando,
                 cerrarSesion,
                 actualizarPerfil,
-                alertaAuthProvider
+                alertaAuthProvider,
+                actualizarPassword
             }}
         >
             {children}
